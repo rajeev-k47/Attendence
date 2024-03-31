@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendence</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <input id="enroll" type="text" placeholder="Enrollment No." class="input-field">
+        <input id="pass" type="text" placeholder="Password" class="input-field">
+        <button onclick="submit()">Submit</button>
+        <div id="text"></div>
+    </div>
+    <div id="time"></div>
+    <div id="Status"></div>
+    <div id="attend">
+        <table>
+            <tr>
+                <th>Course</th>
+                <th>Attendence</th>
+            </tr>
+            <tr>
+                <td id="goof0"></td>
+                <td id="goofia0"></td>
+            </tr>
+            <tr>
+                <td id="goof1"></td>
+                <td id="goofia1"></td>
+            </tr>
+            <tr>
+                <td id="goof2"</td>
+                <td id="goofia2"></td>
+            </tr>
+            <tr>
+                <td id="goof3"></td>
+                <td id="goofia3"></td>
+            </tr>
+            <tr>
+                <td id="goof4"></td>
+                <td id="goofia4"></td>
+            </tr>
+            <tr>
+                <td id="goof5"></td>
+                <td id="goofia5"></td>
+            </tr>
+        </table>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
