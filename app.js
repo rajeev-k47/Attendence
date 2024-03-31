@@ -16,15 +16,21 @@ app.get('/', (req,res)=>{
 let Token=[{token:0,id:0,username:'',password:'',Att:{},loop:0}]
 let i =0
 let goofy = {}
-
+let btnst ={goog0: 0, goog1: 0, goog2: 0, goog3: 0, goog4: 0, goog5: 0}
 let subjects = [];
 let j=0
 io.on('connection', (socket)=>{
     console.log('A user connected')
+    socket.on('btnst',(st)=>{
+            btnst=st
+    })
+
+
+
     socket.on('Entry',({user,passw,socketid})=>{
         for(let i=0; i<Token.length;i++){
             if(Token[i] && user==Token[i].username){
-                io.emit('Confirm',{text:"Your Attendance is running on another device",id:socketid})
+                io.emit('Confirm',{text:"Proxy device",id:socketid,res:"Proxy"})
                 return
             }
         }
@@ -60,11 +66,16 @@ io.on('connection', (socket)=>{
                 if(!Token[n].Att){
                     Token[n].Att = [];
                   }
-
-                if(k == 6){
-                    k=0
-                }
-                Token[n].loop++
+                
+                for(let i =0;i<6;i++){
+                    if(btnst[`goog${k}`]==1){
+                        k++
+                        if(k>5){
+                            k=0
+                        }
+                    }
+                }  
+                
                 io.emit('l',{l:Token[n].loop,id:socketid})
                 axios.post("https://attendance.iitr.ac.in:8000/api/student/markAttendance", subjects[k], {
                     headers: {
@@ -73,10 +84,11 @@ io.on('connection', (socket)=>{
                     }
                 })
                 .then(function (res) { 
-                     console.log(Token[n].loop);
+                    // console.log(Token[n].username);
                     // console.log(subjects[k])
                     // console.log(res.data);
-                    io.emit('Confirm',{text:"Logged in Successfully! currently on "+ Token[n].username,id:socketid,res:res.data})
+                    io.emit('Confirm',{text:"Logged in Successfully! currently on "+ Token[n].username,id:socketid,res:res.data.message})
+                    Token[n].loop++
                 })
                 .catch(function (err) { 
                     // console.error(err); 
@@ -102,6 +114,9 @@ io.on('connection', (socket)=>{
                 })
         
                 k++;
+                if(k == 6){
+                    k=0
+                }
             }, 2000);
         })
 
@@ -109,14 +124,26 @@ io.on('connection', (socket)=>{
         }
         
         )
+        socket.on('Resetuser',(user)=>{
+            try{
+                for(let i =0;i<Token.length;i++){
+                    if(Token[i].username==user){
+                        clearInterval(goofy[Token[i].id])
+                        delete Token[i]
+                    }
+                }
+            }
+            catch(error){
+                console.log('Cannot find the user')
+            }
+        })
         socket.on('disconnect',()=>{
             console.log('A user left!')
-            Token.forEach((element,n)=>{
-                if(socket.id == element.id){
-                    clearInterval(goofy[Token[n].id])
-                    delete Token[n]
-                }
-            })
+            // Token.forEach((element,n)=>{
+            //     if(socket.id == element.id){
+            //         clearInterval(goofy[Token[n].id])
+            //     }
+            // })
         })
     
 })
