@@ -4,17 +4,34 @@ const user = [{
     id:socket.id,
     course:{}
 }]
-
+let username
+let password
 function submit(){
-    let username = document.getElementById("enroll").value;
-    let password = document.getElementById("pass").value;
+    document.getElementById('submit').style.backgroundColor='red'
+    username = document.getElementById("enroll").value;
+    password = document.getElementById("pass").value;
     socket.emit('Entry',{user:username,passw:password,socketid:socket.id})
+    document.getElementById("enroll").value='';
+    document.getElementById("pass").value='';
 }
 
 socket.on('Confirm',({text,id,res})=>{
     if(id!=socket.id){return}
     document.getElementById("text").innerText = text;
-    document.getElementById("Status").innerText = res.message;
+    document.getElementById("Status").innerText = res;
+
+    if(text=="Proxy device"){
+        const Button = document.createElement("button");
+        Button.innerHTML = "Reset";
+        Button.style.fontSize="10px";
+        Button.style.width="fit-content"
+        Button.id= "Reset"
+        Button.addEventListener("click", () => {
+            socket.emit("Resetuser",username)
+        });
+        const Div = document.getElementById("text");
+         Div.appendChild(Button);
+    }
 })
 
 socket.on('l',({l,id})=>{
@@ -25,6 +42,7 @@ socket.on('l',({l,id})=>{
 socket.on('Attcount',({obj,id})=>{
     // console.log(obj)
     if(id!=socket.id){return}
+    document.getElementById('submit').style.backgroundColor='rgb(0,0,0,0)'
     for(let i =0;i<obj.length;i++){
         for(let j=0;j<user[socket.id].course.length;j++){
             let t=0
@@ -32,6 +50,9 @@ socket.on('Attcount',({obj,id})=>{
                 document.getElementById("goofia"+j).innerText=obj[i].AttCount
             }
         }
+    }
+    for(let j=0; j<obj.length;j++){
+        document.getElementById("goog"+j).removeAttribute("hidden")
     }
 })
 
@@ -43,3 +64,21 @@ socket.on('course',({res,id})=>{
         document.getElementById("goof"+i).innerText=res[i].SubjectAlphaCode
     }
 })
+let buttonst = {goog0: 0, goog1: 0, goog2: 0, goog3: 0, goog4: 0, goog5: 0}
+function skip(btn) {
+    var button = document.getElementById(btn);
+    var computedStyle = window.getComputedStyle(button);
+    var currentColor = computedStyle.backgroundColor;
+
+    if (currentColor === "rgba(245, 25, 100, 0.4)") {
+        button.style.backgroundColor = "rgba(245, 25, 100, 0)";
+    } else {
+        button.style.backgroundColor = "rgba(245, 25, 100, 0.4)";
+    }
+    for(let i =0;i<6;i++){
+        if(btn==`goog${i}`){
+            buttonst[`goog${i}`] = buttonst[`goog${i}`] === 1 ? 0 : 1;
+        }
+    }
+    socket.emit('btnst',buttonst)
+}
