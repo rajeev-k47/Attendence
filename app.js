@@ -32,6 +32,8 @@ io.on('connection', (socket)=>{
             if(Token[i] && user==Token[i].username){
                 console.log(Token)
                 io.emit('Confirm',{text:"Proxy device",id:socketid,res:"Proxy"})
+                io.emit('l',{l:Token[i].loop,id:socketid})
+
                 return
             }
         }
