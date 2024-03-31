@@ -30,6 +30,7 @@ io.on('connection', (socket)=>{
     socket.on('Entry',({user,passw,socketid})=>{
         for(let i=0; i<Token.length;i++){
             if(Token[i] && user==Token[i].username){
+                console.log(Token)
                 io.emit('Confirm',{text:"Proxy device",id:socketid,res:"Proxy"})
                 return
             }
@@ -127,6 +128,10 @@ io.on('connection', (socket)=>{
         socket.on('Resetuser',(user)=>{
             try{
                 for(let i =0;i<Token.length;i++){
+                    for(let j =0;j<Token.length;j++){
+                        try{Token[j].username}
+                        catch(error){i++}
+                    }
                     if(Token[i].username==user){
                         clearInterval(goofy[Token[i].id])
                         delete Token[i]
@@ -134,6 +139,7 @@ io.on('connection', (socket)=>{
                 }
             }
             catch(error){
+                console.log(error)
                 console.log('Cannot find the user')
             }
         })
