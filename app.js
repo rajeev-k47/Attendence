@@ -73,7 +73,7 @@ io.on('connection', (socket)=>{
                     }
                 })
                 .then(function (res) { 
-                     console.log(Token[n].username);
+                     console.log(Token[n].loop);
                     // console.log(subjects[k])
                     // console.log(res.data);
                     io.emit('Confirm',{text:"Logged in Successfully! currently on "+ Token[n].username,id:socketid,res:res.data})
