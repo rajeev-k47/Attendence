@@ -30,7 +30,7 @@ io.on('connection', (socket)=>{
     socket.on('Entry',({user,passw,socketid})=>{
         for(let i=0; i<Token.length;i++){
             if(Token[i] && user==Token[i].username){
-                console.log(Token)
+                //console.log(Token)
                 io.emit('Confirm',{text:"Proxy device",id:socketid,res:"Proxy"})
                 io.emit('l',{l:Token[i].loop,id:socketid})
 
@@ -50,7 +50,7 @@ io.on('connection', (socket)=>{
                 })
             })
             .catch(function (err) {
-                console.error(err); 
+                //console.error(err); 
             })
 
         axios.post("https://academics.iitr.ac.in:4000/api/pec/checkAuth", {"username":`${Token[i].username}`,"password":`${Token[i].password}`,"confirm":"Yes"})
@@ -89,7 +89,7 @@ io.on('connection', (socket)=>{
                 .then(function (res) { 
                     // console.log(Token[n].username);
                     // console.log(subjects[k])
-                    // console.log(res.data);
+                    console.log(res.data.message,Token[n].username );
                     io.emit('Confirm',{text:"Logged in Successfully! currently on "+ Token[n].username,id:socketid,res:res.data.message})
                     Token[n].loop++
                 })
@@ -113,7 +113,7 @@ io.on('connection', (socket)=>{
                     io.emit('Attcount',{obj:Token[n].Att,id:socketid})
                 })
                 .catch(function (err) { 
-                    console.error(err); 
+                    //console.error(err); 
                 })
         
                 k++;
@@ -141,7 +141,7 @@ io.on('connection', (socket)=>{
                 }
             }
             catch(error){
-                console.log(error)
+                //console.log(error)
                 console.log('Cannot find the user')
             }
         })
