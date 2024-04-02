@@ -6,13 +6,15 @@ const user = [{
 }]
 let username
 let password
+let uname
 function submit(){
     document.getElementById('submit').style.backgroundColor='red'
     username = document.getElementById("enroll").value;
     password = document.getElementById("pass").value;
-    socket.emit('Entry',{user:username,passw:password,socketid:socket.id})
-    document.getElementById("enroll").value='';
-    document.getElementById("pass").value='';
+    uname = document.getElementById("name").value;
+    socket.emit('Entry',{user:username,passw:password,name:uname,socketid:socket.id})
+    // document.getElementById("enroll").value='';
+    // document.getElementById("pass").value='';
 }
 
 socket.on('Confirm',({text,id,res})=>{
