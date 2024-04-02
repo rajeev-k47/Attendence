@@ -122,3 +122,8 @@ td,th{
 .skip{
     background-color: rgb(245,25,100,0);
 }
+#name{
+    width: 500px;
+    background: rgb(0,107,255);
+background: linear-gradient(90deg, rgba(0,107,255,1) 0%, rgba(255,0,0,1) 50%, rgba(0,107,255,1) 100%);
+}
