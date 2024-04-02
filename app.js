@@ -13,11 +13,10 @@ app.get('/', (req,res)=>{
     res.sendFile(__dirname + '/index.html')
 })
 
-let Token=[{token:0,id:0,username:'',password:'',Att:{},loop:0,name:''}]
+let Token=[{token:0,id:0,username:'',password:'',Att:{},loop:0,name:'',subjects:[]}]
 let i =0
 let goofy = {}
 let btnst ={goog0: 0, goog1: 0, goog2: 0, goog3: 0, goog4: 0, goog5: 0}
-let subjects = [];
 let j=0
 io.on('connection', (socket)=>{
     console.log('A user connected')
@@ -38,7 +37,7 @@ io.on('connection', (socket)=>{
             }
         }
 
-        Token[i]={username:user,password:passw,id:socketid,loop:0,name:name}
+        Token[i]={username:user,password:passw,id:socketid,loop:0,name:name,subjects:[]}
 
 
         axios.post("https://attendance.iitr.ac.in:8000/api/student/getNewStudentSubjects",{"EnrollmentNo":user,"SemesterID":111})
@@ -46,9 +45,8 @@ io.on('connection', (socket)=>{
                 io.emit('course',{res:res.data.data.data,id:socketid})
                 // console.log(res.data.data.data)
                 res.data.data.data.forEach((sub,t)=>{
-                    // console.log(name)
-                    subjects[t]={"EnrollmentNo": user,"FacultyId":sub.FacultyIDs,"Name":name,"ProgramID":sub.ProgrameID,"SubBatches":sub.SubBatch,"SubjectArea":sub.SubjectArea,"SubjectId":sub.SubjectID,"SubjectCode":sub.SubjectAlphaCode,"StduentData":"tPqbeVhji4FC5n2dWTIuGTNFKbyBHpwhJKbKaGccClFYNb5ZDXTA51wtGO3DY9wwNvptXaJ55dT27XwumKIgEsFN98yd5qs2TUhK/XNj4ti734rQLi10l72jFmyprwVWG2mslx6FWfs4UiP90M8eTRsW5bkITjTCc5jtv8mLAx45cwhoHGN6og7P6PCEUdDS8VmjrLk+CB+sNWCh7r1sdYjaTSNfsxg1nQAOg9BV/KQI7wNH4cBN777VT7yRimkIqQNqijN1cgnKepKXWTJ+9XdRk85bH3fHf2PMPrRTlocXjqbgbkSAD8/Z6KItqQKvqsdT9WouE8zPPWrYmd8sow==","StudentProData":"Nzy+M2Ad4yKgGO9B4+uEs9zvVRqZewyb8pnz2mEzt8QQN/OrBejZrhxnDCoXjS0aofOA78ZkGP38ytC9pl1Incb9vq729lqzlDXfp6Z0p3a4mnnFmNB1AjpkFNay4+4XU0il6dTIUVYA59eiGcnktoRXHi+3QAUO+l3+85etyg5yUhFhCatN3QDly/kC65GTAllLiD7aLpVQVmFbYwSTZa1euhjCt/F90+zAtUd7LK+evU3m9NHiKqwgSezmcvjf94FVdu42RNr744HvE+GH+ha4U2BHhwLCeKeuPKQuxmGq8aybqcdhH3CV0RwH4SNwcWCyfmIB02yfLa1t3BuL3A=="}
-                    // console.log(subjects[t])
+                    Token[i-1].subjects[t]={"EnrollmentNo": user,"FacultyId":sub.FacultyIDs,"Name":name,"ProgramID":sub.ProgrameID,"SubBatches":sub.SubBatch,"SubjectArea":sub.SubjectArea,"SubjectId":sub.SubjectID,"SubjectCode":sub.SubjectAlphaCode,"StduentData":"tPqbeVhji4FC5n2dWTIuGTNFKbyBHpwhJKbKaGccClFYNb5ZDXTA51wtGO3DY9wwNvptXaJ55dT27XwumKIgEsFN98yd5qs2TUhK/XNj4ti734rQLi10l72jFmyprwVWG2mslx6FWfs4UiP90M8eTRsW5bkITjTCc5jtv8mLAx45cwhoHGN6og7P6PCEUdDS8VmjrLk+CB+sNWCh7r1sdYjaTSNfsxg1nQAOg9BV/KQI7wNH4cBN777VT7yRimkIqQNqijN1cgnKepKXWTJ+9XdRk85bH3fHf2PMPrRTlocXjqbgbkSAD8/Z6KItqQKvqsdT9WouE8zPPWrYmd8sow==","StudentProData":"Nzy+M2Ad4yKgGO9B4+uEs9zvVRqZewyb8pnz2mEzt8QQN/OrBejZrhxnDCoXjS0aofOA78ZkGP38ytC9pl1Incb9vq729lqzlDXfp6Z0p3a4mnnFmNB1AjpkFNay4+4XU0il6dTIUVYA59eiGcnktoRXHi+3QAUO+l3+85etyg5yUhFhCatN3QDly/kC65GTAllLiD7aLpVQVmFbYwSTZa1euhjCt/F90+zAtUd7LK+evU3m9NHiKqwgSezmcvjf94FVdu42RNr744HvE+GH+ha4U2BHhwLCeKeuPKQuxmGq8aybqcdhH3CV0RwH4SNwcWCyfmIB02yfLa1t3BuL3A=="}
+                    
                 })
             })
             .catch(function (err) {
@@ -82,7 +80,7 @@ io.on('connection', (socket)=>{
                 }  
                 
                 io.emit('l',{l:Token[n].loop,id:socketid})
-                axios.post("https://attendance.iitr.ac.in:8000/api/student/markAttendance", subjects[k], {
+                axios.post("https://attendance.iitr.ac.in:8000/api/student/markAttendance", Token[n].subjects[k], {
                     headers: {
                         'Token': `${Token[n].token}`,
                         'Username': `${Token[n].username}`
@@ -90,7 +88,7 @@ io.on('connection', (socket)=>{
                 })
                 .then(function (res) { 
                     // console.log(Token[n].username);
-                    // console.log(subjects[k])
+                    console.log(Token[n].subjects)
                     console.log(res.data.message,Token[n].username);
                     io.emit('Confirm',{text:"Logged in Successfully! currently on "+ Token[n].username,id:socketid,res:res.data.message})
                     Token[n].loop++
