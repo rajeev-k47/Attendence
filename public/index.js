@@ -72,10 +72,10 @@ function skip(btn) {
     var computedStyle = window.getComputedStyle(button);
     var currentColor = computedStyle.backgroundColor;
 
-    if (currentColor === "rgba(245, 25, 100, 0.4)") {
+    if (currentColor === "rgba(0, 255, 54, 0.4)") {
         button.style.backgroundColor = "rgba(245, 25, 100, 0)";
     } else {
-        button.style.backgroundColor = "rgba(245, 25, 100, 0.4)";
+        button.style.backgroundColor = "rgba(0, 255, 54, 0.4)";
     }
     for(let i =0;i<6;i++){
         if(btn==`goog${i}`){
