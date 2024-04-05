@@ -120,7 +120,7 @@ io.on('connection', (socket)=>{
                 if(k == 6){
                     k=0
                 }
-            }, Math.random()*7+8);
+            }, Math.random()*7000+8000);
         })
 
             i+=1
