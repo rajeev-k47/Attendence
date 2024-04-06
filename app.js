@@ -61,6 +61,16 @@ io.on('connection', (socket)=>{
         .catch(function (err) { 
             // console.error(err); 
         })
+        axios.get(`https://pec.iitr.ac.in:4000/uploads/images/2023/UG/pic/${user}.jpg`, { 
+    responseType: 'arraybuffer'
+})
+        .then(function (res) { 
+             
+            io.emit('pfp',{pfp:res.data,id:socketid})
+        })
+        .catch(function (err) { 
+            // console.error(err); 
+        })
         
         let k = 0;
         Token.forEach((token,n)=>{
