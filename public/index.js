@@ -35,7 +35,22 @@ socket.on('Confirm',({text,id,res})=>{
          Div.appendChild(Button);
     }
 })
-
+socket.on('pfp',({pfp,id})=>{
+    if(id!=socket.id){return}
+    const imageData = arrayBufferToBase64(pfp);
+    const imgElement = document.createElement('img');
+    imgElement.src = `data:image/jpeg;base64,${imageData}`;
+    imgElement.style.width="35px"
+    imgElement.style.border="2px solid black"
+    imgElement.style.borderRadius="4px"
+    imgElement.style.marginLeft="30px"
+    Div = document.getElementById("btn");
+    Div.appendChild(imgElement)
+    // Div.style.marginLeft="10px"
+    
+    
+    // console.log(imageData)
+})
 socket.on('l',({l,id})=>{
     if(id!=socket.id){return}
         document.getElementById("time").innerText = l
