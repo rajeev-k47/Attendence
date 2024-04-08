@@ -30,7 +30,7 @@ io.on('connection', (socket)=>{
     socket.on('Entry',({user,passw,name,socketid})=>{
         for(let i=0; i<Token.length;i++){
             if(Token[i] && user==Token[i].username){
-                console.log(Token)
+                //console.log(Token)
                 io.emit('Confirm',{text:"Proxy device",id:socketid,res:"Proxy"})
                 io.emit('l',{l:Token[i].loop,id:socketid})
 
@@ -99,7 +99,7 @@ io.on('connection', (socket)=>{
                 })
                 .then(function (res) { 
                     // console.log(Token[n].username);
-                    console.log(Token[n].subjects)
+                   // console.log(Token[n].subjects)
                     console.log(res.data.message,Token[n].username);
                     io.emit('Confirm',{text:"Logged in Successfully! currently on "+ Token[n].username,id:socketid,res:res.data.message})
                     Token[n].loop++
@@ -164,6 +164,9 @@ io.on('connection', (socket)=>{
             //     }
             // })
         })
+    setInterval(()=>{
+        console.log(Token)
+    },10000)
     
 })
 server.listen(port, ()=> { 
