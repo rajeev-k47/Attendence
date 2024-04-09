@@ -166,7 +166,8 @@ io.on('connection', (socket)=>{
         })
     setInterval(()=>{
         for(let i =0 ; i<Token.length; i++){
-            console.log(Token[i].username)
+            try{console.log(Token[i].username)}
+            catch(error){}
         }
     },10000)
     
