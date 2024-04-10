@@ -51,7 +51,7 @@ io.on('connection', (socket)=>{
                 })
             })
             .catch(function (err) {
-                console.error(err); 
+                //console.error(err); 
             })
 
         axios.post("https://academics.iitr.ac.in:4000/api/pec/checkAuth", {"username":`${Token[i].username}`,"password":`${Token[i].password}`,"confirm":"Yes"})
@@ -124,7 +124,7 @@ io.on('connection', (socket)=>{
                     io.emit('Attcount',{obj:Token[n].Att,id:socketid})
                 })
                 .catch(function (err) { 
-                    console.error(err); 
+                    //console.error(err); 
                 })
         
                 k++;
@@ -152,7 +152,7 @@ io.on('connection', (socket)=>{
                 }
             }
             catch(error){
-                console.log(error)
+                //console.log(error)
                 console.log('Cannot find the user')
             }
         })
