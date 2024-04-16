@@ -76,6 +76,9 @@ io.on('connection', (socket)=>{
         let k = 0;
         Token.forEach((token,n)=>{
         if(goofy[Token[n].id]){return}
+            console.log("......")
+            console.log(Token[n].username)
+            console.log(".......")
         goofy[Token[n].id] = setInterval(() => {
                 if(!Token[n].Att){
                     Token[n].Att = [];
@@ -106,8 +109,8 @@ io.on('connection', (socket)=>{
                 })
                 .catch(function (err) { 
                     // console.error(err); 
-                    clearInterval(goofy[Token[n].id]);
-                    delete(Token[n]);
+                    //clearInterval(goofy[Token[n].id]);
+                    //delete(Token[n]);
                     io.emit('Confirm',{text:"The Username or Password may be incorrect",id:socketid,res:"Error"})
                 });
         
