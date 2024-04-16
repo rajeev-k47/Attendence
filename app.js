@@ -106,7 +106,7 @@ io.on('connection', (socket)=>{
                 })
                 .catch(function (err) { 
                     // console.error(err); 
-                    clearInterval(goofy);
+                    clearInterval(goofy[Token[n].id]);
                     io.emit('Confirm',{text:"The Username or Password may be incorrect",id:socketid,res:"Error"})
                 });
         
@@ -169,6 +169,7 @@ io.on('connection', (socket)=>{
             try{console.log(Token[i].username)}
             catch(error){}
         }
+        console.log("--------------------")
     },10000)
     
 })
