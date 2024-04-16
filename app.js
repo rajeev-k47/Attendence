@@ -170,7 +170,7 @@ io.on('connection', (socket)=>{
             try{console.log(Token[i].username)}
             catch(error){}
         }
-        console.log("--------------------")
+        console.log("--------------------" + Token)
     },10000)
     
 })
