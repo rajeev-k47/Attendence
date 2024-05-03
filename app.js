@@ -108,7 +108,7 @@ io.on('connection', (socket)=>{
                     Token[n].loop++
                 })
                 .catch(function (err) { 
-                    // console.error(err); 
+                    console.error(err); 
                     //clearInterval(goofy[Token[n].id]);
                     //delete(Token[n]);
                     io.emit('Confirm',{text:"The Username or Password may be incorrect",id:socketid,res:"Error"})
