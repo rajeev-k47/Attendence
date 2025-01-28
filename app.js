@@ -41,7 +41,7 @@ io.on('connection', (socket)=>{
         Token[i]={username:user,password:passw,id:socketid,loop:0,name:name,subjects:[]}
 
 
-        axios.post("https://attendance.iitr.ac.in:8000/api/student/getNewStudentSubjects",{"EnrollmentNo":user,"SemesterID":111})
+        axios.post("https://attendance.iitr.ac.in:8000/api/student/getNewStudentSubjects",{"EnrollmentNo":user,"SemesterID":121})
             .then(function (res) { 
                 io.emit('course',{res:res.data.data.data,id:socketid})
                 // console.log(res.data.data.data)
