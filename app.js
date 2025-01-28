@@ -46,7 +46,7 @@ io.on('connection', (socket)=>{
                 io.emit('course',{res:res.data.data.data,id:socketid})
                 // console.log(res.data.data.data)
                 res.data.data.data.forEach((sub,t)=>{
-                    Token[i-1].subjects[t]={"EnrollmentNo": user,"FacultyId":sub.FacultyIDs,"Name":name,"ProgramID":sub.ProgrameID,"SubBatches":sub.SubBatch,"SubjectArea":sub.SubjectArea,"SubjectId":sub.SubjectID,"SubjectCode":sub.SubjectAlphaCode,"StduentData":"FJ/K49SQY9dTBRH6tsSub4rw6Py5dP3nmSfUokQ5s5aApQgMwBGoqhRDAgnEVlpbxhtOdZ7dYheBvx1/DO5E3aE0Azn/ovF4BCqAgm7F63SV4LanjvoM/FvHsMwZGw3lVuEcbmoJ7yRAU7bMlqv3zgFr+Cke//3XlEcR28Vv6QZ6UGWuuHkwmUh3Luu8pwD47fI/0yAnrnwd0iPbIv0RIlw5YCOegzL625fTOIB4U1JCT1oTLdbWVzPld0A1mqw2IN6DjoUID/E2tPuQi97QOm3PsL86rA96pFBl0QEKP/d7nOV4QdARtprKrvmQmdvW7czENAIUyweeXyjUj2QUHQ==","StudentProData":"F7Mzb4TRTwh4Hb8mX//h8sR1kdXvypMWqNfRt3HEVCXE4i8/T2EFBvkXLSLDCtpgkpP0Y1mJis88f7KeqB8gfN9UxW+PVh3OaX/bnM7qzzErpgZ662xfQonRjsCfRG4sB/OitvcsRHvdbWCR3t1VsH5sBCnrMjNbQBanltPlVgkIbSzI4t9vrlsjUOrvPpcamEPSAllsMvQnNbSlxDLVCsCptftgVtFgCbQlIiaJj3ovDUU75Ci6F9QKysrL5xOTDjoaEgekOJPBAizi7hCtTUP22WOPMWKdKM6gqZ8HMw9+dw3tw7COItCKtrmsfn6zK/ymuqXHuFUy5Uxn675NTA=="}
+                    Token[i-1].subjects[t]={"EnrollmentNo": user,"FacultyId":sub.FacultyIDs,"Name":name,"ProgramID":sub.ProgrameID,"SubBatches":sub.SubBatch,"SubjectArea":sub.SubjectArea,"SubjectId":sub.SubjectID,"SubjectCode":sub.SubjectAlphaCode,"StudentData":"FJ/K49SQY9dTBRH6tsSub4rw6Py5dP3nmSfUokQ5s5aApQgMwBGoqhRDAgnEVlpbxhtOdZ7dYheBvx1/DO5E3aE0Azn/ovF4BCqAgm7F63SV4LanjvoM/FvHsMwZGw3lVuEcbmoJ7yRAU7bMlqv3zgFr+Cke//3XlEcR28Vv6QZ6UGWuuHkwmUh3Luu8pwD47fI/0yAnrnwd0iPbIv0RIlw5YCOegzL625fTOIB4U1JCT1oTLdbWVzPld0A1mqw2IN6DjoUID/E2tPuQi97QOm3PsL86rA96pFBl0QEKP/d7nOV4QdARtprKrvmQmdvW7czENAIUyweeXyjUj2QUHQ==","StudentProData":"F7Mzb4TRTwh4Hb8mX//h8sR1kdXvypMWqNfRt3HEVCXE4i8/T2EFBvkXLSLDCtpgkpP0Y1mJis88f7KeqB8gfN9UxW+PVh3OaX/bnM7qzzErpgZ662xfQonRjsCfRG4sB/OitvcsRHvdbWCR3t1VsH5sBCnrMjNbQBanltPlVgkIbSzI4t9vrlsjUOrvPpcamEPSAllsMvQnNbSlxDLVCsCptftgVtFgCbQlIiaJj3ovDUU75Ci6F9QKysrL5xOTDjoaEgekOJPBAizi7hCtTUP22WOPMWKdKM6gqZ8HMw9+dw3tw7COItCKtrmsfn6zK/ymuqXHuFUy5Uxn675NTA=="}
                     
                 })
             })
@@ -54,7 +54,7 @@ io.on('connection', (socket)=>{
                 //console.error(err); 
             })
 
-        axios.post("https://academics.iitr.ac.in:4000/api/pec/checkAuth", {"username":`${Token[i].username}`,"password":`${Token[i].password}`,"confirm":"Yes"})
+        axios.post("https://attendance.iitr.ac.in:8000/api/user/authLogin", {"username":`${Token[i].username}`,"password":`${Token[i].password}`})
         .then(function (res) { 
             // console.log(res.data.data.AccessToken,i); 
             Token[i-1].token=res.data.data.AccessToken
@@ -96,8 +96,7 @@ io.on('connection', (socket)=>{
                 io.emit('l',{l:Token[n].loop,id:socketid})
                 axios.post("https://attendance.iitr.ac.in:8000/api/student/markAttendance", Token[n].subjects[k], {
                     headers: {
-                        'Token': `${Token[n].token}`,
-                        'Username': `${Token[n].username}`
+                        'AccessToken': `${Token[n].token}`,
                     }
                 })
                 .then(function (res) { 
@@ -117,8 +116,7 @@ io.on('connection', (socket)=>{
         
                 axios.post("https://attendance.iitr.ac.in:8000/api/student/totelCourseWiaeAttendanceCount", {"EnrollmentNo":`${Token[n].username}`},{
                     headers: {
-                        'Token': `${Token[n].token}`,
-                        'Username': `${Token[n].username}`
+                        'AccessToken': `${Token[n].token}`,
                     }
                 })
                 .then(function (res) { 
